@@ -1,0 +1,22 @@
+{
+  "dependencies": {
+    "@binance-chain/javascript-sdk": "^4.2.0",
+    "axios": "^0.19.2",
+    "body-parser": "^1.19.1",
+    "crypto-js": "^4.1.1",
+    "express": "^4.17.2",
+    "pug": "^3.0.2",
+    "web3": "^1.7.0"
+  },
+  "name": "auto-generate-bsc-addresses",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
