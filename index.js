@@ -7,6 +7,7 @@ function generateAddresses(maxQuantity = 1, res) {
   var i = 1
   var text = 'STT,Address\n'
   var backup = 'address,private_key\n'
+  const results = []
   while (i <= maxQuantity) {
     var entropy = crypto.generatePrivateKey()
     // console.log('entropy', entropy)
@@ -16,6 +17,12 @@ function generateAddresses(maxQuantity = 1, res) {
     var privateKey = result['privateKey']
     text += i + ',' + address + '\n'
     backup += address + ',' + privateKey + '\n'
+    var result = {
+      id: i,
+      address: address,
+      privateKey: privateKey
+    }
+    results.push(result)
     i++
   }
 
@@ -25,25 +32,26 @@ function generateAddresses(maxQuantity = 1, res) {
   //     return
   //   }
   // })
-  const alphabet = "abcdefghijklmnopqrstuvwxyz"
-  const randomCharacter = alphabet[Math.floor(Math.random() * alphabet.length)]
-  var tmpFilePath = 'tmp/' + randomCharacter + '_' + Date.now() + '.csv'
-  fs.writeFile(tmpFilePath, backup, err => {
-    if (err) {
-      console.error(err)
-      return
-    } else {
-      var file = __dirname + '/' + tmpFilePath
-      res.download(file); // Set disposition and send it.
-      // Remove tmp file after 20 seconds
-    //   setTimeout(function(){
-    //     fs.rmSync(file, {
-    //       force: true,
-    //     }); 
-    //  }, 20000);
-    }
-  })
-  return tmpFilePath
+  // const alphabet = "abcdefghijklmnopqrstuvwxyz"
+  // const randomCharacter = alphabet[Math.floor(Math.random() * alphabet.length)]
+  // var tmpFilePath = 'tmp/' + randomCharacter + '_' + Date.now() + '.csv'
+  // fs.writeFile(tmpFilePath, backup, err => {
+  //   if (err) {
+  //     console.error(err)
+  //     return
+  //   } else {
+  //     var file = __dirname + '/' + tmpFilePath
+  //     res.download(file); // Set disposition and send it.
+  //     // Remove tmp file after 20 seconds
+  //     setTimeout(function(){
+  //       fs.rmSync(file, {
+  //         force: true,
+  //       }); 
+  //    }, 20000);
+  //   }
+  // })
+  // return tmpFilePath
+  return results
 }
 
 const express = require('express')
@@ -63,7 +71,9 @@ app.get('/', function (req, res) {
 
 app.post('/', function (req, res) {
   var quantity = parseInt(req.body.quantity)
-  generateAddresses(quantity, res)
+  var results = generateAddresses(quantity, res)
+  res.render('result', { title: 'Auto generate BSC Addresses Tool', results: results })
+
 })
 
 app.listen(PORT, () => {
