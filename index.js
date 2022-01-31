@@ -36,11 +36,11 @@ function generateAddresses(maxQuantity = 1, res) {
       var file = __dirname + '/' + tmpFilePath
       res.download(file); // Set disposition and send it.
       // Remove tmp file after 20 seconds
-      setTimeout(function(){
-        fs.rmSync(file, {
-          force: true,
-        }); 
-     }, 20000);
+    //   setTimeout(function(){
+    //     fs.rmSync(file, {
+    //       force: true,
+    //     }); 
+    //  }, 20000);
     }
   })
   return tmpFilePath
